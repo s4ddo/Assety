@@ -1,7 +1,9 @@
 .viewer {
     border: 1px solid tomato;
+    border-radius: 30px;
 }
 
 audio{
-    width: 100%;
+    width: 150px;
+    height: 20px;
 }

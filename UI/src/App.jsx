@@ -1,74 +1,35 @@
-import { useState } from "react";
-import './chat.css'
-import './glb-viewer'
-import MeshLoaderCanvas from "./glb-viewer";
-import MeshCanvas from "./glb-viewer";
-import { parseForMesh, parseForAudio, parseMedia } from "./message-parser";
-
+import { useState, useRef, useEffect} from "react";
+import './cat.css'
+import Chat from "./Chat";
 function App() {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
 
-  const handleSend = async (e) => {
+  return (
+    <div>
+        <div className="catContainer">
 
-  e.preventDefault();
-  if (!input.trim()) return;
+            <img 
+            onClick={() => setIsVisible(!isVisible)} 
+            className="catButton"  
+            src={`/${isVisible ? "cat_listen": "cat_idle"}.png`}/>
 
-  const userMessage = { sender: "you", text: input };
-  const botMessage = { sender: "bot", text: "" };
-
-  setMessages((prev) => [...prev, userMessage, botMessage]);
-  setInput("");
-
-  try {
-    setMessages((prev) => {
-        const updated = [...prev];
-        updated[updated.length - 1] = { sender: "bot", text: input };
-        return updated;
-      });
-  } catch (error) {
-    console.error("Error streaming:", error);
-    setMessages((prev) => [
-      ...prev,
-      { sender: "bot", text: "⚠️ Error streaming response" },
-    ]);
-  }
-};
-
-return (
-  <div>
-    <div className="container">
-    <div className="chatBox">
-      {messages.map((msg, i) => (
-        <div
-          key={i}
-          className={`message ${msg.sender === "bot" ? "bot" : ""}`}
-          style={{
-            alignSelf: msg.sender === "you" ? "flex-end" : "flex-start",
-          }}
-        >
-          {msg.sender === "bot" ? (<div>
-            {parseMedia([msg.text])}
+            {isVisible && (
+                <Chat/>
+            )}
             
-            </div>
-          ) : (
-            msg.text
-          )}
+                    
+
+
         </div>
-      ))}
+
+
+
     </div>
-  </div>
-    <form onSubmit={handleSend} className="inputForm">
-      <input
-        type="text"
-        placeholder="Type a message..."
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        className = "input"
-      />
-    </form>
-  </div>
-);
+
+    
+
+
+  );
 
 }
 

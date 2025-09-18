@@ -1,12 +1,19 @@
+.mainContainer {
+  height: fit-content;
+  margin: 0;
+  overflow-x: hidden;
+}
+
 .container {
   font-family: "Prata", serif;
   display: block;
-  flex-direction: column;
-  height: 75vh;
-  /* border: 2px solid tomato; */
-  max-width: 600px;
-  margin: 0 auto;
-  overflow: scroll;
+  margin: 0;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 100vw;
+  min-height: 0;
+  height: fit-content;
 }
 
 .chatBox {
@@ -14,53 +21,70 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   gap: 5px;
   overflow-y: auto;
-  margin-bottom: 10px;
+  overflow-x: hidden;
 }
 
 .message {
   border: 1px solid white;
   padding: 8px 12px;
-  background: black;
+  background: transparent;
   border-radius: 8px;
-  max-width: 70%;
+  max-width: 150px;
+  overflow-wrap: break-word;
   color: white;
 }
 
 .message.bot {
-    color: tomato;
-    border: 1px solid tomato;
+    color: rgb(255, 165, 10);
+    border: 1px solid rgb(255, 165, 10);
 
 }
 .inputForm {
-position: absolute;
+/* position: absolute; */
 vertical-align: middle;
   display: flex;
   width: 100%;
-  bottom: 0;
-  left: 0;
+  height: 100%;
+  margin: 0;
 }
-
 
 .input {
   outline: none;
   flex: 1;
   padding: 10px;
-  font-size: 16px;
-      font-family: "Prata", serif;
-      background-color: transparent;
-      color: white;
-      border-radius: 15px;
-      border: 1px solid gray;
-        transition: all 0.25s;
+  margin: 0;
+  /* font-size: 13px; */
+  font-family: "Prata", serif;
+  background-color: transparent;
+  color: white;
+  transition: all 0.25s;
+
+  width: 200px;
+  resize: none;
 }
+.input::placeholder{
+  transition: all 0.25s;;
+  color: white
+}
+
 .input:hover{
-  color: tomato;
-  border: 1px solid tomato;
+  color: rgb(255, 165, 10);
+  border: 1px solid rgb(255, 165, 10);
+}
+
+.input:hover::placeholder{
+  color: rgb(255, 165, 10);
 }
 
 .input:focus{
   color:black;
-  background: tomato;
+  background: rgba(255, 165, 10);
+  border: 1px solid black;
+}
+
+.input:focus::placeholder{
+  color:black;
 }
