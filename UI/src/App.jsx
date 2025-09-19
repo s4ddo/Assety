@@ -14,7 +14,7 @@ function App() {
             <img 
             onClick={() => setIsVisible(!isVisible)} 
             className="catButton"  
-            src={`/${isVisible ? "cat_listen": "cat_idle"}.png`}/>
+            src={`./${isVisible ? "cat_listen": "cat_idle"}.png`}/>
 
             {isVisible && (
                 <Chat setMessages={setMessages}/>

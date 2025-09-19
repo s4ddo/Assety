@@ -8,6 +8,7 @@
 
     "start": "electron .",
     "build:electron": "electron-builder",
+    "build:electron:win": "electron-builder --win",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -47,6 +48,9 @@
       "target": ["AppImage"],
       "category": "Utility",
       "maintainer": "Your Name <your@email.com>"
+    },
+    "win": {
+      "target": "portable"
     }
   }
 

@@ -22,7 +22,9 @@ function createWindow() {
   win.on("enter-full-screen", () => win.setFullScreen(false));
 
   // Load your dev server (Vite/React/Vue)
-  win.loadURL("http://localhost:5173");
+  // win.loadURL("http://localhost:5173");
+
+  win.loadFile(path.join(__dirname, "./dist/index.html"));
 
   // Resize handler
   ipcMain.on("resize-window", (event, { w, h }) => {
@@ -30,7 +32,7 @@ function createWindow() {
   });
 
   // Debugging
-  // win.webContents.openDevTools();
+  win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
