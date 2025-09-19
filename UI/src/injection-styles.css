@@ -1,9 +1,15 @@
 .viewer {
-    border: 1px solid tomato;
+    border: 1px solid greenyellow;
     border-radius: 30px;
+    height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
 }
 
 audio{
     width: 150px;
     height: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

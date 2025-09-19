@@ -1,19 +1,9 @@
 import { useState, useRef, useEffect} from "react";
 import './chat.css'
 import './glb-viewer'
-import MeshLoaderCanvas from "./glb-viewer";
-import MeshCanvas from "./glb-viewer";
-import { parseMedia } from "./message-parser";
 
-function Chat() {
-  const [messages, setMessages] = useState([]);
+function Chat({setMessages}) {
   const [input, setInput] = useState("");
-  const endRef = useRef(null);
-
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
   const handleSend = async (e) => {
 
   e.preventDefault();
@@ -42,8 +32,6 @@ function Chat() {
 
 return (
   <div className="mainContainer">
-    {/* <h1>aiset<span style={{ color: "tomato" }}>.</span></h1> */}
-
     <form onSubmit={handleSend} className="inputForm">
       <textarea
         placeholder="Type a message..."
@@ -59,34 +47,6 @@ return (
         rows={3}
       />
     </form>
-
-
-    
-    {messages.length > 0 && (<div className="container">
-      <div className="chatBox">
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`message ${msg.sender === "bot" ? "bot" : ""}`}
-            style={{
-              alignSelf: msg.sender === "you" ? "flex-end" : "flex-start",
-            }}
-          >
-            {msg.sender === "bot" ? (<div>
-              {parseMedia([msg.text])}
-              
-              </div>
-            ) : (
-              msg.text
-            )}
-          </div>
-        ))}
-        <div ref={endRef}></div>
-      </div>
-    </div>)}
-
-
-
   </div>
 );
 

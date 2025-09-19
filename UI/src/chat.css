@@ -66,8 +66,8 @@ vertical-align: middle;
   resize: none;
 }
 .input::placeholder{
-  transition: all 0.25s;;
-  color: white
+  transition: all 0.25s;
+  color: white;
 }
 
 .input:hover{
