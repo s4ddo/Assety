@@ -1,0 +1,26 @@
+# Server Related
+fastapi[standard]==0.116.1
+Werkzeug==3.0.3
+
+# AI Related
+langchain
+langchain_community
+langchain-google-genai
+langchain_tavily
+langchain_core
+
+langgraph
+langgraph-checkpoint-postgres
+
+typing
+typing_extensions
+
+elasticsearch
+sshtunnel
+
+psycopg[binary]
+
+# # For curriculum server
+# faiss-cpu
+# numpy
+# sentence_transformers
