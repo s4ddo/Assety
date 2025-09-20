@@ -25,6 +25,9 @@ class Assety:
         self.synthesize_llm = ChatGoogleGenerativeAI(
             model="gemini-2.5-flash"
         )
+        self.codegen_llm = ChatGoogleGenerativeAI(
+            model="gemini-2.5-flash"
+        )
 
 
     def build_graph(self):
@@ -76,9 +79,15 @@ class Assety:
     
 
     def code_generator_worker(self, state: WorkerState):
-        """Dummy Code Generator Worker"""
+        """Code Generator Worker"""
+
+        per_message_instruction = " You are an expert code generator. You only generate code and nothing else. Always keep your code as short and efficient as possible."
+
         task = state["task"]
-        return {"worker_outputs": [f"Dummy code for: {task['query']}"]}
+        prompt = [{"role": "system", "content": per_message_instruction}] + [task['query']]
+        response = self.synthesize_llm.invoke(prompt)
+        content = response.content
+        return {"worker_outputs": [content]}
 
     def image_generator_worker(self, state: WorkerState):
         """Dummy Image Generator Worker"""
