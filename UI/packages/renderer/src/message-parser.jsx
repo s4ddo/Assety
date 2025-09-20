@@ -16,7 +16,7 @@ export function parseForImage(text) {
       if (before) parts.push(before);
 
       const filename = match[1]; // e.g. "image.png"
-      const imageUrl = `http://127.0.0.1:5000/get-image/${filename}`; // fetch from Flask endpoint
+      const imageUrl = `https://horribly-mighty-goshawk.ngrok-free.app/get-image/${filename}`; // fetch from Flask endpoint
 
       parts.push(
         <img
