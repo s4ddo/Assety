@@ -1,8 +1,8 @@
 import { useEffect} from "react";
 import './chat.css'
 import './glb-viewer'
-import MeshLoaderCanvas from "./glb-viewer";
-import MeshCanvas from "./glb-viewer";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { cb } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { parseMedia } from "./message-parser";
 import ReactMarkdown from "react-markdown";
 export default function ChatBox({messages, endRef}) {
@@ -24,9 +24,34 @@ export default function ChatBox({messages, endRef}) {
                 }}
             >
                 {msg.sender === "bot" ? (<div>
+                    <img className="catIcon" src="./cat_tired.gif"></img>
                         {parseMedia([msg.text]).map((chunk, i) => (
                         typeof chunk === "string" ? (
-                            <ReactMarkdown key={i}>{chunk}</ReactMarkdown>
+                            
+                                <ReactMarkdown
+                                    key={i}
+                                    components={{
+                                        code({ node, inline, className, children, ...props }) {
+                                        const match = /language-(\w+)/.exec(className || '');
+                                        return !inline && match ? (
+                                            <SyntaxHighlighter
+                                            style={cb}
+                                            language={match[1]}
+                                            PreTag="div"
+                                            {...props}
+                                            >
+                                            {String(children).replace(/\n$/, '')}
+                                            </SyntaxHighlighter>
+                                        ) : (
+                                            <code className={className} {...props}>
+                                            {children}
+                                            </code>
+                                        );
+                                        },
+                                    }}
+                                    >
+                                    {chunk}
+                                    </ReactMarkdown>
                         ) : (
                             <div key={i}>{chunk}</div>
                         )

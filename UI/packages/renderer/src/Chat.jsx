@@ -3,9 +3,8 @@ import ReactMarkdown from "react-markdown";
 import './chat.css';
 import './glb-viewer';
 
-function Chat({ setMessages }) {
+function Chat({ setMessages, loading, setLoading }) {
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false); // 🚀 track if waiting for reply
 
   const handleSend = async (e) => {
     e.preventDefault();

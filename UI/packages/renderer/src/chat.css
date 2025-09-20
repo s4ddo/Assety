@@ -39,9 +39,10 @@
   padding: 8px 12px;
   background: transparent;
   border-radius: 8px;
-  max-width: 150px;
+  max-width: 190px;
   overflow-wrap: break-word;
   color: white;
+  position: relative;
   
 }
 
@@ -113,21 +114,28 @@ code::-webkit-scrollbar-thumb {
 
 pre::-webkit-scrollbar-track,
 code::-webkit-scrollbar-track {
-  background-color: rgb(149, 105, 29); /* dark background */
+  background-color: rgb(60, 45, 20); /* dark background */
 }
 
 
 pre {
-  background-color: rgb(255, 165, 10); /* dark background */
-  color: black;           /* light text */
-  padding: 1rem;
-  border-radius: 0.5rem;
+  color: white;           /* light text */
   overflow-x: auto;
   font-size: 0.6rem;
 }
 
 /* Inline code (`like this`) */
 code {
-  padding: 0.2em 0.4em;
   border-radius: 0.25rem;
+}
+
+.catIcon {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  z-index: 10;
+  will-change: transform;
 }

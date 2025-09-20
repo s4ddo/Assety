@@ -7,10 +7,12 @@
     position: relative;
     background-size: contain;
 
-  mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 90%);
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: cover;
+  filter: brightness(100%);
+
+}
+
+.catButton:hover {
+filter: hue-rotate(-0.25turn);
 }
 
 .catButtonContainer{
@@ -36,10 +38,7 @@
   width: 30px;
 }
 
-.catButton:hover {
-  filter: brightness(150%);
-  
-}
+
 
 .catContainer {
   display: flex;
