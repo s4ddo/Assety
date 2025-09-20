@@ -1,57 +1,44 @@
 {
-  "name": "assety",
+  "name": "aiset",
+  "description": "Secure boilerplate for Electron app based on Vite",
+  "version": "3.1.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
-  "main": "main.cjs",
-  "scripts": {
-
-    "start": "electron .",
-    "build:electron": "electron-builder",
-    "build:electron:win": "electron-builder --win",
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+  "author": {
+    "email": "kozackunisoft@gmail.com",
+    "name": "Alex Kozack",
+    "url": "https://kozack.me"
   },
-  "dependencies": {
-    "@react-three/drei": "^10.7.6",
-    "@react-three/fiber": "^9.3.0",
-    "jshint": "^2.13.6",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "three": "^0.180.0"
+  "main": "packages/entry-point.mjs",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=23.0.0"
+  },
+  "scripts": {
+    "build": "npm run build -ws --if-present",
+    "compile": "npm run build && electron-builder build --config electron-builder.mjs",
+    "compilewin": "electron-builder build --win portable --config electron-builder.mjs",
+
+    "test": "npx playwright test ./tests/e2e.spec.ts",
+    "start": "node packages/dev-mode.js",
+    "typecheck": "npm run typecheck -ws --if-present",
+    "create-renderer": "cd packages && node ./integrate-renderer/create-renderer.js",
+    "integrate-renderer": "npm start --workspace @app/integrate-renderer",
+    "init": "npm run create-renderer && npm run integrate-renderer && npm install"
   },
   "devDependencies": {
-    "@eslint/js": "^9.33.0",
-    "@types/react": "^19.1.10",
-    "@types/react-dom": "^19.1.7",
-    "@vitejs/plugin-react": "^5.0.0",
-    "electron": "^38.1.2",
-    "electron-builder": "^26.0.12",
-    "eslint": "^9.33.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
-    "vite": "^7.1.2"
+    "@npmcli/map-workspaces": "5.0.0",
+    "@playwright/test": "1.55.0",
+    "@types/node": "24.5.2",
+    "create-vite": "7.1.2",
+    "electron": "38.1.2",
+    "electron-builder": "26.0.12",
+    "glob": "11.0.3",
+    "playwright": "^1.55.0"
   },
-
-  "author": {
-  "name": "Your Name",
-  "email": "your@email.com"
-  },
-  "homepage": "https://example.com",
-  "build": {
-    "appId": "com.yourname.myapp",
-    "productName": "MyElectronApp",
-    "linux": {
-      "target": ["AppImage"],
-      "category": "Utility",
-      "maintainer": "Your Name <your@email.com>"
-    },
-    "win": {
-      "target": "portable"
-    }
+  "dependencies": {
+    "@app/main": "*"
   }
-
 }

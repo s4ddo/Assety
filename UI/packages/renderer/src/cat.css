@@ -1,10 +1,25 @@
 .catButton {
-    background: "red";
     height: 75px;
     width: 75px;
     display: inline-block;
     user-select: none;
     transition: all 0.25s;
+    position: relative;
+    background-size: contain;
+}
+
+.dragIcon {
+  left: 0;
+  bottom: 0;
+  position: absolute;
+  user-select: none;
+  transition: all 0.25s;
+  width: 20px;
+  app-region: drag;
+}
+
+.dragIcon:hover {
+  width: 30px;
 }
 
 .catButton:hover {
@@ -14,5 +29,4 @@
 .catContainer {
   display: flex;
   align-items: flex-start; /* vertically align button and text */
-  gap /* space between button and text */
 }

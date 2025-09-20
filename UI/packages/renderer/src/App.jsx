@@ -11,10 +11,19 @@ function App() {
     <div>
         <div className="catContainer">
 
-            <img 
-            onClick={() => setIsVisible(!isVisible)} 
-            className="catButton"  
-            src={`./${isVisible ? "cat_listen": "cat_idle"}.png`}/>
+            <div 
+              onClick={() => {
+                setIsVisible(!isVisible);
+                setMessages([]);
+              }} 
+              className="catButton"
+              style={{
+                backgroundImage: `url(./${isVisible ? "cat_listen" : "cat_idle"}.png)`,
+              }}
+            >
+              <img className="dragIcon" src="./drag.png"/>
+            </div>
+
 
             {isVisible && (
                 <Chat setMessages={setMessages}/>

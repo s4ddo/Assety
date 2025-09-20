@@ -29,7 +29,8 @@ body {
   width: fit-content;
   padding: 0;
   margin: 0;
-  overflow: hidden
+  overflow: hidden;
+  
 }
 
 h1 {
