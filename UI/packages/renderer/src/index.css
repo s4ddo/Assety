@@ -3,8 +3,8 @@
 
 /* Scrollbar width & height */
 ::-webkit-scrollbar {
-  width: 12px;   /* vertical scrollbar */
-  height: 12px;  /* horizontal scrollbar */
+  width: 7px;   /* vertical scrollbar */
+  height: 7px;  /* horizontal scrollbar */
 }
 
 /* Scrollbar track (background) */
@@ -19,10 +19,6 @@
   border-radius: 8px;
 }
 
-/* Thumb hover effect */
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(255, 165, 10);
-}
 
 
 body {

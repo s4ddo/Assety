@@ -34,7 +34,7 @@ function App() {
 
         </div>
 
-        {isVisible && (<ChatBox messages={messages} endRef={endRef}/>)}
+        <div style={{display: (isVisible) ? "block" : "none"  }}><ChatBox messages={messages} endRef={endRef}/></div>
 
     </div>
   );
