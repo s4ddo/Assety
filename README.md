@@ -1,3 +1,5 @@
-# Assety
+# Aiset
+A cat agent that helps video game assets like 3D Mesh.
 
-A video game asset creation agent that can generate and iterate meshes, audio, and images.
+
+
