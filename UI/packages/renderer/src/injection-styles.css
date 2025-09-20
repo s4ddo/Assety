@@ -1,10 +1,14 @@
 .viewer {
     border: 1px solid greenyellow;
-    border-radius: 30px;
     height: 100px;
     margin-top: 10px;
     margin-bottom: 10px;
 
+}
+
+.injectedimage {
+
+    width: 100px;
 }
 
 audio{

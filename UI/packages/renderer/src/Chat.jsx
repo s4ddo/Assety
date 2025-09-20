@@ -5,10 +5,13 @@ import './glb-viewer';
 
 function Chat({ setMessages }) {
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false); // 🚀 track if waiting for reply
 
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || loading) return; // prevent sending if loading
+
+    setLoading(true); // lock input
 
     // show user message immediately
     const userMessage = { sender: "you", text: input };
@@ -46,6 +49,8 @@ function Chat({ setMessages }) {
         updated[updated.length - 1] = { sender: "bot", text: "❌ Error fetching reply" };
         return updated;
       });
+    } finally {
+      setLoading(false); // unlock input
     }
   };
 
@@ -53,17 +58,18 @@ function Chat({ setMessages }) {
     <div className="mainContainer">
       <form onSubmit={handleSend} className="inputForm">
         <textarea
-          placeholder="Type a message..."
+          placeholder={loading ? "Waiting for reply..." : "Type a message..."}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.shiftKey) {
-              event.preventDefault(); // prevent newline
-              handleSend(event);
+              event.preventDefault();
+              if (!loading) handleSend(event); // block if loading
             }
           }}
           className="input"
           rows={3}
+          disabled={loading} // 🚀 lock while generating
         />
       </form>
     </div>

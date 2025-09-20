@@ -37,6 +37,7 @@ export default function ChatBox({messages, endRef}) {
                 )}
             </div>
             ))}
+
             <div ref={endRef}></div>
         </div>
         </div>)}

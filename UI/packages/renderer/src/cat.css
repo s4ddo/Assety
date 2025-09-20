@@ -1,11 +1,25 @@
 .catButton {
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    user-select: none;
+    transition: all 0.25s;
+    position: relative;
+    background-size: contain;
+
+  mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 90%);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: cover;
+}
+
+.catButtonContainer{
     height: 75px;
     width: 75px;
     display: inline-block;
     user-select: none;
     transition: all 0.25s;
     position: relative;
-    background-size: contain;
 }
 
 .dragIcon {
@@ -24,9 +38,11 @@
 
 .catButton:hover {
   filter: brightness(150%);
+  
 }
 
 .catContainer {
   display: flex;
   align-items: flex-start; /* vertically align button and text */
+  
 }

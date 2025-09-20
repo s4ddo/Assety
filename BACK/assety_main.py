@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from node_main_llm import MainLLM
 from states import State, WorkerState, ToolDecisions
 from langchain_google_genai import ChatGoogleGenerativeAI
+import requests
 
 class Assety:
     def __init__(self):
@@ -90,19 +91,49 @@ class Assety:
         return {"worker_outputs": [content]}
 
     def image_generator_worker(self, state: WorkerState):
-        """Dummy Image Generator Worker"""
-        task = state["task"]
-        return {"worker_outputs": [f"Dummy image URL for: {task['query']}"]}
+        """Image Generator Worker calling the Flask API"""
+        task = state["task"]  # assuming 'task' contains the prompt text
+        try:
+            response = requests.post(
+                "https://horribly-mighty-goshawk.ngrok-free.app/gen_image",  # adjust if running on another host/port
+                json={"text": task['query']}
+            )
+            response.raise_for_status()
+            data = response.json()
+            return {"worker_outputs": [f"imagefile='{data.get('image-file')}'"]}
+        except Exception as e:
+            print(f"Error generating image: {e}")
+            return {"worker_outputs": []}
 
     def three_d_model_generator_worker(self, state: WorkerState):
-        """Dummy 3D Model Generator Worker"""
+        """3D Model Generator Worker calling the Flask API"""
         task = state["task"]
-        return {"worker_outputs": [f"meshfile='sample_mesh.glb'"]}
+        try:
+            response = requests.post(
+                "https://horribly-mighty-goshawk.ngrok-free.app/gen_mesh",
+                json={"text": task['query']}
+            )
+            response.raise_for_status()
+            data = response.json()
+            return {"worker_outputs": [f"meshfile='{data.get('mesh-file')}'"]}
+        except Exception as e:
+            print(f"Error generating 3D model: {e}")
+            return {"worker_outputs": []}
     
     def music_generator_worker(self, state: WorkerState):
-        """Dummy Music Generator Worker"""
-        task = state["task"]
-        return {"worker_outputs": [f"audiofile='sample_song.mp3"]}
+        """Music Generator Worker calling the Flask API"""
+        task = state["task"]  # assuming 'task' contains the prompt text
+        try:
+            response = requests.post(
+                "https://horribly-mighty-goshawk.ngrok-free.app/gen_music",  # adjust host/port if needed
+                json={"text": task['query']}
+            )
+            response.raise_for_status()
+            data = response.json()
+            return {"worker_outputs": [f"audiofile='{data.get('audio-file')}'"]}
+        except Exception as e:
+            print(f"Error generating music: {e}")
+            return {"worker_outputs": []}
     
 
     def synthesizer(self, state: State):
@@ -135,10 +166,13 @@ class Assety:
         Examples for each data type are:
         
         Mesh: 
-        'Here is a mesh for you <mesh src="sample_mesh.glb">'
+        'Here is a mesh for you <mesh src="1758385441.glb">'
         
         Audio:
-        'Here is a song for you <audio src="sample_song.mp3">'
+        'Here is a song for you <audio src="1758385441.mp3">'
+        
+        Image:
+        'Here is a image for you <img src="1758385441.png">'
         
         etc.
         

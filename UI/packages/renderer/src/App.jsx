@@ -12,15 +12,17 @@ function App() {
         <div className="catContainer">
 
             <div 
+              className="catButtonContainer"
               onClick={() => {
                 setIsVisible(!isVisible);
-                setMessages([]);
+                // setMessages([])
               }} 
+            >
+              <div 
               className="catButton"
               style={{
                 backgroundImage: `url(./${isVisible ? "cat_listen" : "cat_idle"}.png)`,
-              }}
-            >
+              }}></div>
               <img className="dragIcon" src="./drag.png"/>
             </div>
 
