@@ -14,11 +14,11 @@ class MainLLM:
     def __init__(self, all_tool_map, auto_pad):
         self.instructions = (
             "You are an English- and Dutch-speaking agent. Your role is to analyze a user's request and identify all necessary tools to fulfill it. "
-            "You must return a list of tool decisions, where each decision specifies a tool from the following options: 'code_generator', 'image_generator', '3d_model_generator', "
+            "You must return a list of tool decisions (which can be empty), where each decision specifies a tool from the following options: 'code_generator', 'image_generator', '3d_model_generator', "
             "or 'music_generator', and a corresponding query. If no tools are suitable, return an empty list. "
             "The 'query' field should contain the specific part of the user's request that is relevant to that tool. "
             "You can choose from these exact tool names: 'code_generator', 'image_generator', '3d_model_generator', 'music_generator'. "
-            "Never use 'null' or any other tool name. If the user refers to something from previous conversation (like 'make it blue'), "
+            "If the user refers to something from previous conversation (like 'make it blue'), "
             "determine what they're referring to from the conversation context and create appropriate tasks."
         )
         self.all_tool_map = all_tool_map
@@ -32,7 +32,8 @@ class MainLLM:
         
         planner_llm = llm.with_structured_output(ToolDecisions)
         
-        per_message_instruction = "⚠️ Do not return any tools if the human message is simply a greeting or a show of appreciation."
+        per_message_instruction = "⚠️ Do not return any tools if the last message is simply a greeting, a show of appreciation, or a general question or statement that does not need any tools. " \
+        "Also return an empty list if the last message asks what your capabilities are."
         
         message_history = [{"role": "system", "content": per_message_instruction}] + state["messages"]
         
