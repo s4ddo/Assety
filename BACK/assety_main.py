@@ -6,10 +6,11 @@ from langgraph.types import Send
 from langchain_core.messages import HumanMessage, AIMessage
 from pprint import pprint
 from dotenv import load_dotenv
-from .node_main_llm import MainLLM
-from .states import State, WorkerState, ToolDecisions
+from node_main_llm import MainLLM
+from states import State, WorkerState, ToolDecisions
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-class AutoPad:
+class Assety:
     def __init__(self):
         # Get the directory of the current file (assety_main.py)
         base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +22,9 @@ class AutoPad:
         self.main_llm = MainLLM(None, self)
         self.checkpointer = InMemorySaver()
         self.graph = self.build_graph()
+        self.synthesize_llm = ChatGoogleGenerativeAI(
+            model="gemini-2.5-flash"
+        )
 
 
     def build_graph(self):
@@ -30,7 +34,6 @@ class AutoPad:
         graph_builder.add_node("orchestrator", self.main_llm.main)
         graph_builder.add_node("code_generator", self.code_generator_worker)
         graph_builder.add_node("image_generator", self.image_generator_worker)
-        graph_builder.add_node("video_generator", self.video_generator_worker)
         graph_builder.add_node("3d_model_generator", self.three_d_model_generator_worker)
         graph_builder.add_node("music_generator", self.music_generator_worker)
         graph_builder.add_node("synthesizer", self.synthesizer)
@@ -42,7 +45,6 @@ class AutoPad:
         
         graph_builder.add_edge("code_generator", "synthesizer")
         graph_builder.add_edge("image_generator", "synthesizer")
-        graph_builder.add_edge("video_generator", "synthesizer")
         graph_builder.add_edge("3d_model_generator", "synthesizer")
         graph_builder.add_edge("music_generator", "synthesizer")
         
@@ -57,7 +59,7 @@ class AutoPad:
         if not tasks:
             return "synthesizer"
         
-        valid_tools = {'code_generator', 'image_generator', 'video_generator', '3d_model_generator', 'music_generator'}
+        valid_tools = {'code_generator', 'image_generator', '3d_model_generator', 'music_generator'}
         sends = []
         
         for task in tasks:
@@ -83,20 +85,15 @@ class AutoPad:
         task = state["task"]
         return {"worker_outputs": [f"Dummy image URL for: {task['query']}"]}
 
-    def video_generator_worker(self, state: WorkerState):
-        """Dummy Video Generator Worker"""
-        task = state["task"]
-        return {"worker_outputs": [f"Dummy video URL for: {task['query']}"]}
-
     def three_d_model_generator_worker(self, state: WorkerState):
         """Dummy 3D Model Generator Worker"""
         task = state["task"]
-        return {"worker_outputs": [f"Dummy 3D model file for: {task['query']}"]}
+        return {"worker_outputs": [f"meshfile='sample_mesh.glb'"]}
     
     def music_generator_worker(self, state: WorkerState):
         """Dummy Music Generator Worker"""
         task = state["task"]
-        return {"worker_outputs": [f"Dummy music file for: {task['query']}"]}
+        return {"worker_outputs": [f"audiofile='sample_song.mp3"]}
     
 
     def synthesizer(self, state: State):
@@ -116,15 +113,41 @@ class AutoPad:
             current_outputs = []
 
         if not current_outputs:
-            final_response_text = "I can assist with creating content for you. For example, I can generate code, images, videos, 3D models, or music."
+            final_response_text = ""
         else:
             final_response_text = "\n".join(current_outputs)
 
-        ai_message = AIMessage(content=final_response_text)
         
+        per_message_instruction = f""" You are a grumpy sleepy cat personality that helps with the user in the generation of video game assets such as 3d meshes, images, and music. 
+        based on these results (if there are): **{final_response_text}**
+        
+        Please format them to these depending on the type. And present them as if you are a cute sleepy cat.
+        
+        Examples for each data type are:
+        
+        Mesh: 
+        'Here is a mesh for you <mesh src="sample_mesh.glb">'
+        
+        Audio:
+        'Here is a song for you <audio src="sample_song.mp3">'
+        
+        etc.
+        
+        Make sure to styalize it with your own personality tho. 
+        
+        Try to keep it short but nice to save tokens. 
+        
+        Format and styalize your answers with markdown.
+        
+        """
+
+        messages = [{"role": "system", "content": per_message_instruction}] + state["messages"]
+        response = self.synthesize_llm.invoke(messages)
+        
+
         return {
             "final_response": final_response_text,
-            "messages": [ai_message],
+            "messages": [response],
             "worker_outputs": [] 
         }
 
@@ -145,8 +168,8 @@ class AutoPad:
                 print("\n", flush=True)
 
                 if node_name == "synthesizer" and "final_response" in node_output:
-                    final_response = node_output["final_response"]
+                    final_response = node_output["messages"][-1]
         
         print("--- Final Assembled Response ---")
-        print(final_response)
-        return final_response
+        print(final_response.content)
+        return final_response.content

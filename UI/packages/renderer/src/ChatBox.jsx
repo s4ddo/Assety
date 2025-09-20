@@ -4,7 +4,7 @@ import './glb-viewer'
 import MeshLoaderCanvas from "./glb-viewer";
 import MeshCanvas from "./glb-viewer";
 import { parseMedia } from "./message-parser";
-
+import ReactMarkdown from "react-markdown";
 export default function ChatBox({messages, endRef}) {
 
     useEffect(() => {
@@ -24,8 +24,13 @@ export default function ChatBox({messages, endRef}) {
                 }}
             >
                 {msg.sender === "bot" ? (<div>
-                {parseMedia([msg.text])}
-                
+                        {parseMedia([msg.text]).map((chunk, i) => (
+                        typeof chunk === "string" ? (
+                            <ReactMarkdown key={i}>{chunk}</ReactMarkdown>
+                        ) : (
+                            <div key={i}>{chunk}</div>
+                        )
+                        ))}                
                 </div>
                 ) : (
                 msg.text

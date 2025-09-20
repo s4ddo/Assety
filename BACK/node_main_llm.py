@@ -2,7 +2,7 @@ import json
 from typing import List, Optional
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_google_genai import ChatGoogleGenerativeAI
-from .states import State, ToolDecision, ToolDecisions
+from states import State, ToolDecision, ToolDecisions
 
 class DebugLLM(ChatGoogleGenerativeAI):
     def _generate(self, messages, stop = None, run_manager = None, *, tools = None, functions = None, safety_settings = None, tool_config = None, generation_config = None, cached_content = None, tool_choice = None, **kwargs):
@@ -14,10 +14,10 @@ class MainLLM:
     def __init__(self, all_tool_map, auto_pad):
         self.instructions = (
             "You are an English- and Dutch-speaking agent. Your role is to analyze a user's request and identify all necessary tools to fulfill it. "
-            "You must return a list of tool decisions, where each decision specifies a tool from the following options: 'code_generator', 'image_generator', 'video_generator', '3d_model_generator', "
+            "You must return a list of tool decisions, where each decision specifies a tool from the following options: 'code_generator', 'image_generator', '3d_model_generator', "
             "or 'music_generator', and a corresponding query. If no tools are suitable, return an empty list. "
             "The 'query' field should contain the specific part of the user's request that is relevant to that tool. "
-            "You can choose from these exact tool names: 'code_generator', 'image_generator', 'video_generator', '3d_model_generator', 'music_generator'. "
+            "You can choose from these exact tool names: 'code_generator', 'image_generator', '3d_model_generator', 'music_generator'. "
             "Never use 'null' or any other tool name. If the user refers to something from previous conversation (like 'make it blue'), "
             "determine what they're referring to from the conversation context and create appropriate tasks."
         )
@@ -40,7 +40,7 @@ class MainLLM:
             response = planner_llm.invoke(message_history)
             if response and response.decisions:
                 # Filter out any invalid tool names
-                valid_tools = {'code_generator', 'image_generator', 'video_generator', '3d_model_generator', 'music_generator'}
+                valid_tools = {'code_generator', 'image_generator', '3d_model_generator', 'music_generator'}
                 sub_tasks = []
                 for d in response.decisions:
                     if d.tool_name in valid_tools:

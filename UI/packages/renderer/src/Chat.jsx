@@ -1,55 +1,73 @@
-import { useState, useRef, useEffect} from "react";
-import './chat.css'
-import './glb-viewer'
+import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import './chat.css';
+import './glb-viewer';
 
-function Chat({setMessages}) {
+function Chat({ setMessages }) {
   const [input, setInput] = useState("");
+
   const handleSend = async (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
 
-  e.preventDefault();
-  if (!input.trim()) return;
+    // show user message immediately
+    const userMessage = { sender: "you", text: input };
+    setMessages((prev) => [...prev, userMessage]);
 
-  const userMessage = { sender: "you", text: input };
-  const botMessage = { sender: "bot", text: "" };
+    // add bot placeholder with "..."
+    const botPlaceholder = { sender: "bot", text: "..." };
+    setMessages((prev) => [...prev, botPlaceholder]);
 
-  setMessages((prev) => [...prev, userMessage, botMessage]);
-  setInput("");
+    const currentInput = input;
+    setInput(""); // clear input field
 
-  try {
-    setMessages((prev) => {
+    try {
+      const response = await fetch("http://localhost:8000/request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ input: currentInput, user_id: "ahmad" }),
+      });
+
+      const res = await response.json();
+      console.log(res);
+
+      // replace "..." with actual bot reply
+      setMessages((prev) => {
         const updated = [...prev];
-        updated[updated.length - 1] = { sender: "bot", text: input };
+        updated[updated.length - 1] = { sender: "bot", text: res.reply };
         return updated;
       });
-  } catch (error) {
-    console.error("Error streaming:", error);
-    setMessages((prev) => [
-      ...prev,
-      { sender: "bot", text: "⚠️ Error streaming response" },
-    ]);
-  }
-};
+    } catch (error) {
+      console.error("Error sending text:", error);
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = { sender: "bot", text: "❌ Error fetching reply" };
+        return updated;
+      });
+    }
+  };
 
-return (
-  <div className="mainContainer">
-    <form onSubmit={handleSend} className="inputForm">
-      <textarea
-        placeholder="Type a message..."
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" && !event.shiftKey) {
-            event.preventDefault(); // prevent new line
-            handleSend(event);      // call your async send function
-          }
-        }}
-        className="input"
-        rows={3}
-      />
-    </form>
-  </div>
-);
-
+  return (
+    <div className="mainContainer">
+      <form onSubmit={handleSend} className="inputForm">
+        <textarea
+          placeholder="Type a message..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" && !event.shiftKey) {
+              event.preventDefault(); // prevent newline
+              handleSend(event);
+            }
+          }}
+          className="input"
+          rows={3}
+        />
+      </form>
+    </div>
+  );
 }
 
 export default Chat;
