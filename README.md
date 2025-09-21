@@ -73,11 +73,6 @@ Just grab the package for your platform, install it, and run the grumpy cat.
 * [ ] In general better models!
 * [ ] Push mesh, audio, and image model back-end for people to run locally 
 
-
-## License
-
-MIT — see `LICENSE`.
-
 ## Credits
 
 * Idea & initial implementation: Ahmad Ramadan & Taro
