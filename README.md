@@ -42,7 +42,7 @@ You can download **Aiset** directly from the [Releases tab](../../releases):
 
 * **Windows** → `.exe` installer
 * **Linux** → `.AppImage`
-* **macOS** → `.app`
+* **macOS** → TBD (file was too big lol)
 
 Just grab the package for your platform, install it, and run the grumpy cat.
 
