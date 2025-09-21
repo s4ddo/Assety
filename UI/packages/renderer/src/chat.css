@@ -139,3 +139,16 @@ code {
   z-index: 10;
   will-change: transform;
 }
+
+button{
+    border: 1px solid rgb(255, 165, 10);
+    color: rgb(255, 165, 10);
+    background-color: transparent;
+    transition: all 0.25s;
+}
+
+button:hover {
+  background-color: rgb(255, 165, 10);
+  color: black;
+  border:  1px solid black;
+}

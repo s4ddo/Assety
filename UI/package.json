@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@app/main": "*",
+    "electron-dl": "^4.0.0",
     "react-markdown": "^10.1.0",
     "react-syntax-highlighter": "^15.6.6"
   }

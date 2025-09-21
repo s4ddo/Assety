@@ -1,8 +1,7 @@
 import type {AppModule} from '../AppModule.js';
 import {ModuleContext} from '../ModuleContext.js';
-import {BrowserWindow, ipcMain, IpcMainEvent} from 'electron';
+import {BrowserWindow, ipcMain, IpcMainEvent, dialog} from 'electron';
 import type {AppInitConfig} from '../AppInitConfig.js';
-
 class WindowManager implements AppModule {
   readonly #preload: {path: string};
   readonly #renderer: {path: string} | URL;
@@ -42,10 +41,22 @@ class WindowManager implements AppModule {
     browserWindow.setFullScreen(false);
 
     ipcMain.on("resize-window", (event: IpcMainEvent, { w, h }: { w: number; h: number }) => {
-  if (browserWindow) {
-    browserWindow.setContentSize(Math.ceil(w), Math.ceil(h));
-  }
-});
+      if (browserWindow) {
+        browserWindow.setContentSize(Math.ceil(w), Math.ceil(h));
+      }
+    });
+    
+    ipcMain.handle('save-file', async (event, defaultFileName) => {
+        const { canceled, filePath } = await dialog.showSaveDialog(browserWindow, {
+          title: 'Save file',
+          defaultPath: defaultFileName,
+          buttonLabel: 'Save',
+          filters: [{ name: 'All Files', extensions: ['*'] }],
+        });
+
+        if (canceled) return null;
+        return filePath; // return selected path to renderer
+      });
 
     if (this.#renderer instanceof URL) {
       await browserWindow.loadURL(this.#renderer.href);

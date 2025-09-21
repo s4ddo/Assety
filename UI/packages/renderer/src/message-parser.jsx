@@ -1,6 +1,6 @@
 import React from "react";
 import MeshCanvas from "./glb-viewer";
-
+import DownloadButton from "./DownloadButton";
 
 export function parseForImage(text) {
   return text.flatMap((item) => {
@@ -19,12 +19,15 @@ export function parseForImage(text) {
       const imageUrl = `https://horribly-mighty-goshawk.ngrok-free.app/get-image/${filename}`; // fetch from Flask endpoint
 
       parts.push(
+        <>
         <img
           key={match.index}
           src={imageUrl}
           alt={filename}
           style={{ maxWidth: "100%", height: "auto" }}
         />
+        <DownloadButton url={imageUrl}/>
+        </>
       );
 
       lastIndex = regex.lastIndex;
@@ -54,7 +57,7 @@ export function parseForMesh(text) {
       const filename = match[1]; // e.g., "model.glb"
       const meshUrl = `https://horribly-mighty-goshawk.ngrok-free.app/get-mesh/${filename}`; // full URL to endpoint
 
-      parts.push(<MeshCanvas key={match.index} meshUrl={meshUrl} />);
+      parts.push(<><MeshCanvas key={match.index} meshUrl={meshUrl} /><DownloadButton url={meshUrl}/> </>);
 
       lastIndex = regex.lastIndex;
     }
@@ -83,11 +86,13 @@ export function parseForAudio(text) {
       const filename = match[1];
       const audioUrl = `https://horribly-mighty-goshawk.ngrok-free.app/get-music/${filename}`; // full URL to endpoint
 
-      parts.push(
+      parts.push(<>
         <audio key={match.index} controls>
           <source src={audioUrl} type="audio/wav" />
           Your browser does not support the audio element.
         </audio>
+        <DownloadButton url={audioUrl}/>
+        </>
       );
 
       lastIndex = regex.lastIndex;
