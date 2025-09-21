@@ -14,7 +14,9 @@
 ![Placeholder: Aiset UI screenshot](docs/media/demo.png)
 
 
-<video controls src="docs/media/demo.mp4">Placeholder demo video (docs/media/placeholder-demo.mp4)</video>
+
+https://github.com/user-attachments/assets/32c25645-99fe-497a-9345-31a36b21bd31
+
 
 ---
 
