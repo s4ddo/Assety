@@ -95,7 +95,7 @@ class Assety:
         task = state["task"]  # assuming 'task' contains the prompt text
         try:
             response = requests.post(
-                "https://horribly-mighty-goshawk.ngrok-free.app/gen_image",  # adjust if running on another host/port
+                "http://localhost:5000/gen_image",  # adjust if running on another host/port
                 json={"text": task['query']}
             )
             response.raise_for_status()
@@ -110,7 +110,7 @@ class Assety:
         task = state["task"]
         try:
             response = requests.post(
-                "https://horribly-mighty-goshawk.ngrok-free.app/gen_mesh",
+                "http://localhost:5000/gen_mesh",
                 json={"text": task['query']}
             )
             response.raise_for_status()
@@ -125,7 +125,7 @@ class Assety:
         task = state["task"]  # assuming 'task' contains the prompt text
         try:
             response = requests.post(
-                "https://horribly-mighty-goshawk.ngrok-free.app/gen_music",  # adjust host/port if needed
+                "http://localhost:5000/gen_music",  # adjust host/port if needed
                 json={"text": task['query']}
             )
             response.raise_for_status()

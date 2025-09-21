@@ -24,7 +24,7 @@ function Chat({ setMessages, loading, setLoading }) {
     setInput(""); // clear input field
 
     try {
-      const response = await fetch("http://localhost:8000/request", {
+      const response = await fetch("https://horribly-mighty-goshawk.ngrok-free.app/request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

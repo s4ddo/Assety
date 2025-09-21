@@ -16,7 +16,7 @@ export function parseForImage(text) {
       if (before) parts.push(before);
 
       const filename = match[1]; // e.g. "image.png"
-      const imageUrl = `https://horribly-mighty-goshawk.ngrok-free.app/get-image/${filename}`; // fetch from Flask endpoint
+      const imageUrl = `http://localhost:5000/get-image/${filename}`; // fetch from Flask endpoint
 
       parts.push(
         <>
@@ -55,7 +55,7 @@ export function parseForMesh(text) {
       if (before) parts.push(before);
 
       const filename = match[1]; // e.g., "model.glb"
-      const meshUrl = `https://horribly-mighty-goshawk.ngrok-free.app/get-mesh/${filename}`; // full URL to endpoint
+      const meshUrl = `http://localhost:5000/get-mesh/${filename}`; // full URL to endpoint
 
       parts.push(<><MeshCanvas key={match.index} meshUrl={meshUrl} /><DownloadButton url={meshUrl}/> </>);
 
@@ -84,7 +84,7 @@ export function parseForAudio(text) {
       if (before) parts.push(before);
 
       const filename = match[1];
-      const audioUrl = `https://horribly-mighty-goshawk.ngrok-free.app/get-music/${filename}`; // full URL to endpoint
+      const audioUrl = `http://localhost:5000/get-music/${filename}`; // full URL to endpoint
 
       parts.push(<>
         <audio key={match.index} controls>
