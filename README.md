@@ -57,8 +57,6 @@ Just grab the package for your platform, install it, and run the grumpy cat.
    * *“write a function that sorts a list of numbers”* → outputs code (`.txt`)
 3. The grumpy cat will complain, then deliver.
 
-![Placeholder: app usage example](docs/media/placeholder-usage.png)
-
 
 ## Example Prompts
 
@@ -66,13 +64,6 @@ Just grab the package for your platform, install it, and run the grumpy cat.
 * `"forest clearing with mushrooms and fireflies"` → image `.png`
 * `"8-bit style victory jingle"` → music `.mp3`
 * `"python function to generate fibonacci numbers"` → code `.txt`
-
-## Placeholder assets (what to replace)
-
-* `docs/media/placeholder-ui.png` → Replace with UI screenshot
-* `docs/media/placeholder-gen.gif` → Replace with short GIF of generation
-* `docs/media/placeholder-demo.mp4` → Replace with walkthrough video
-* `docs/media/placeholder-usage.png` → Replace with usage screenshot
 
 ## Roadmap
 
