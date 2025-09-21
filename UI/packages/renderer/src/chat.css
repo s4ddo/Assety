@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 .mainContainer {
   height: fit-content;
@@ -145,6 +146,8 @@ button{
     color: rgb(255, 165, 10);
     background-color: transparent;
     transition: all 0.25s;
+  font-family: "Roboto", sans-serif;  
+  font-weight: 300;
 }
 
 button:hover {

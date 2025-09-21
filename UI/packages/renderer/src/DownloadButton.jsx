@@ -13,7 +13,7 @@ function DownloadButton({ url }) {
     };
 
 
-  return <button onClick={handleDownload}>Download</button>;
+  return <button onClick={handleDownload}>💾 Download</button>;
 }
 
 
